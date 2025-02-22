@@ -1,0 +1,23 @@
+@import "/src/styles.scss";
+
+header {
+  background-color: $deep-purple;
+  color: $light-gray;
+}
+
+button[type="submit"] {
+  color: $hot-pink;
+  outline: 1px solid currentColor;
+
+  &:hover {
+    color: $light-gray;
+    background-color: $hot-pink;
+    outline: 1px solid $hot-pink;
+  }
+}
+
+input[type="search"] {
+  &::-webkit-search-cancel-button {
+    appearance: none;
+  }
+}

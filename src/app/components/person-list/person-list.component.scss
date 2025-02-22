@@ -1,0 +1,44 @@
+@import "/src/styles.scss";
+
+.container {
+  max-height: 75vh;
+  overflow-y: auto;
+
+  .table {
+    border-radius: 8px;
+    overflow: hidden;
+    vertical-align: middle;
+
+    td {
+      font-size: 0.875rem;
+    }
+
+    .options {
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .btn-outline {
+        font-weight: bold;
+        color: $deep-purple;
+        background-color: transparent;
+        outline: 1px solid $deep-purple;
+
+        &:hover {
+          color: $light-gray;
+          background-color: $deep-purple;
+        }
+
+        &:last-child {
+          color: $neon-pink;
+          outline: 1px solid $neon-pink;
+
+          &:hover {
+            color: $light-gray;
+            background-color: $neon-pink;
+          }
+        }
+      }
+    }
+  }
+}
