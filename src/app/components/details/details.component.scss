@@ -1,0 +1,11 @@
+@import '/src/variables.scss'; 
+
+.fields-container {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.table-container {
+  max-height: 70vh;
+  overflow: auto;
+}

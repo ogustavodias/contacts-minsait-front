@@ -1,14 +1,12 @@
 <div id="app-wrapper" class="d-flex flex-column">
   <app-header />
   <main class="flex-grow-1 my-4">
-    <app-person-list />
+    <router-outlet></router-outlet>
   </main>
   <div class="container p-3">
-    <a class="btn-add animate-pulse" routerLink="">
+    <a class="btn-add animate-pulse" routerLink="details">
       <i class="fa-solid fa-plus"></i>
     </a>
   </div>
   <app-footer />
 </div>
-
-<router-outlet></router-outlet>

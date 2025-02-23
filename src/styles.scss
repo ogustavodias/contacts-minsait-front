@@ -1,9 +1,4 @@
-$light-gray: #f2f0f2; /* Tom claro, quase branco */
-$deep-purple: #400d29; /* Roxo bem escuro */
-$hot-pink: #f20c78; /* Rosa vibrante */
-$dark-magenta: #730237; /* Magenta escuro */
-$neon-pink: #f20c60; /* Rosa neon */
-$font: "Roboto", serif;
+@import '/src/variables.scss';
 
 * {
   margin: 0;
@@ -67,6 +62,44 @@ button {
   width: 60px;
   height: 60px;
   padding: 20px;
+}
+
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  vertical-align: middle;
+
+  td {
+    font-size: 0.875rem;
+  }
+}
+
+.btn-outline {
+  font-weight: bold;
+  color: $deep-purple;
+  background-color: transparent;
+  outline: 1px solid $deep-purple;
+
+  &:hover {
+    color: $light-gray;
+    background-color: $deep-purple;
+  }
+
+  &:last-child {
+    color: $neon-pink;
+    outline: 1px solid $neon-pink;
+
+    &:hover {
+      color: $light-gray;
+      background-color: $neon-pink;
+    }
+  }
+}
+
+.options {
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .animate-slide-to-right {
