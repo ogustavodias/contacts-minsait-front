@@ -1,4 +1,4 @@
-@import '/src/variables.scss';
+@import "/src/variables.scss";
 
 * {
   margin: 0;
@@ -124,5 +124,17 @@ button {
 @keyframes pulse {
   to {
     transform: scale(0.9);
+  }
+}
+
+.animate-grow-horizontally {
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: grow-horizontally 0.3s ease-in forwards;
+}
+
+@keyframes grow-horizontally {
+  to {
+    transform: scalex(1);
   }
 }
