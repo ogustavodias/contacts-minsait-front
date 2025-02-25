@@ -13,16 +13,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr scope="row">
-        <td>1</td>
-        <td>Gustavo Dias</td>
-        <td>08345-140</td>
-        <td>Rua das flores</td>
-        <td>São Paulo</td>
-        <td>SP</td>
-        <td>2</td>
+      <tr scope="row" *ngFor="let person of personList">
+        <td>{{ person.id }}</td>
+        <td>{{ person.name }}</td>
+        <td>{{ person.postalCode }}</td>
+        <td>{{ person.street }}</td>
+        <td>{{ person.city }}</td>
+        <td>{{ person.state }}</td>
+        <td>{{ person.contacts.length }}</td>
         <td class="options d-flex justify-content-end gap-2">
-          <a routerLink="/details/1" class="btn-outline">Details</a>
+          <a routerLink="/details/{{person.id}}" class="btn-outline">Details</a>
           <button type="button" class="btn-outline">Delete</button>
         </td>
       </tr>
