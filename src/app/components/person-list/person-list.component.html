@@ -23,7 +23,7 @@
         <td>{{ person.contacts.length }}</td>
         <td class="options d-flex justify-content-end gap-2">
           <a routerLink="/details/{{person.id}}" class="btn-outline">Details</a>
-          <button type="button" class="btn-outline">Delete</button>
+          <button type="button" class="btn-outline" (click)="deletePersonById(person.id)">Delete</button>
         </td>
       </tr>
     </tbody>

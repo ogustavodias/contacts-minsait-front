@@ -1,4 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Person, states } from 'src/app/models/person';
 import { PersonService } from 'src/app/services/person.service';
@@ -9,10 +10,19 @@ import { PersonService } from 'src/app/services/person.service';
   styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent {
-  inEditing = false;
   route = inject(ActivatedRoute);
-  brStates = states;
   personService = inject(PersonService);
+
+  brStates = states;
+
+  form = new FormGroup({
+    name: new FormControl({ value: '', disabled: true }),
+    postalcode: new FormControl({ value: '', disabled: true }),
+    state: new FormControl({ value: '', disabled: true }),
+    city: new FormControl({ value: '', disabled: true }),
+    street: new FormControl({ value: '', disabled: true }),
+  });
+
   person: Person = {
     id: 0,
     name: '',
@@ -27,7 +37,7 @@ export class DetailsComponent {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) this.getPersonById(Number(id));
-      else this.inEditing = true;
+      else this.startEditing();
     });
   }
 
@@ -39,16 +49,27 @@ export class DetailsComponent {
       error: (error) => {
         console.log(error);
       },
+      complete: () => {
+        this.fillFieldsWithPersonInfo();
+      },
     });
   }
 
-  fillFieldsWithPersonInfo() {}
+  fillFieldsWithPersonInfo() {
+    this.form.patchValue({
+      name: this.person.name,
+      postalcode: this.person.postalCode,
+      state: this.person.state,
+      city: this.person.city,
+      street: this.person.street,
+    });
+  }
 
   startEditing() {
-    this.inEditing = true;
+    this.form.enable();
   }
 
   finishEditing() {
-    this.inEditing = false;
+    this.form.disable();
   }
 }

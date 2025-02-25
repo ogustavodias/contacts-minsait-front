@@ -25,4 +25,19 @@ export class PersonListComponent {
       },
     });
   }
+
+  deletePersonById(id: number) {
+    this.personService.deletePersonById(id).subscribe({
+      next: (response) => {
+        alert(`Pessoa de ID ${response.body.id} removida`);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        // Débito técnico: Refatorar o backend, que está retornando erro quando a lista está vazia, o que faz com que o getAllPersons não execute.
+        this.getAllPersons();
+      },
+    });
+  }
 }

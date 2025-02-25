@@ -8,6 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PersonListComponent } from './components/person-list/person-list.component';
 import { DetailsComponent } from './components/details/details.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { DetailsComponent } from './components/details/details.component';
     PersonListComponent,
     DetailsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],
 })

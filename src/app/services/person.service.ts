@@ -19,4 +19,8 @@ export class PersonService {
   getPersonById(id: Number) {
     return this.http.get<ApiResponse<Person>>(`${this.API}/${id}`);
   }
+
+  deletePersonById(id: Number) {
+    return this.http.delete<ApiResponse<Person>>(`${this.API}/${id}`);
+  }
 }

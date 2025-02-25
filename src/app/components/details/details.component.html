@@ -1,29 +1,34 @@
 <form
   class="container row row-cols-1 row-cols-lg-2 gy-3 align-items-start animate-slide-to-right"
+  [formGroup]="form"
 >
   <div class="fields-container p-2 d-grid gap-3">
     <div class="input-wrapper">
       <label class="form-label">Name</label>
-      <input type="text" class="form-control" [disabled]="!inEditing" />
+      <input type="text" class="form-control" formControlName="name" />
     </div>
     <div class="input-wrapper">
       <label class="form-label">Postalcode</label>
-      <input type="text" class="form-control" [disabled]="!inEditing" />
+      <input type="text" class="form-control" formControlName="postalcode" />
     </div>
     <div class="input-wrapper">
       <label class="form-label">State</label>
-      <select class="form-select" [disabled]="!inEditing">
+      <select
+        class="form-select"
+        formControlName=""
+        [attr.disabled]="form.disabled ? true : null"
+      >
         <option selected disabled value="">Choose...</option>
         <option *ngFor="let state of brStates">{{ state }}</option>
       </select>
     </div>
     <div class="input-wrapper">
       <label class="form-label">City</label>
-      <input type="text" class="form-control" [disabled]="!inEditing" />
+      <input type="text" class="form-control" formControlName="city" />
     </div>
     <div class="input-wrapper">
       <label class="form-label">Street</label>
-      <input type="text" class="form-control" [disabled]="!inEditing" />
+      <input type="text" class="form-control" formControlName="street" />
     </div>
   </div>
 
@@ -39,9 +44,9 @@
       </thead>
       <tbody>
         <tr scope="row" *ngFor="let contact of person.contacts">
-          <td>{{contact.id}}</td>
-          <td>{{contact.contactValue}}</td>
-          <td>{{contact.contactType}}</td>
+          <td>{{ contact.id }}</td>
+          <td>{{ contact.contactValue }}</td>
+          <td>{{ contact.contactType }}</td>
           <td class="options d-flex gap-2 justify-content-end">
             <a class="btn-outline">Edit</a>
             <button class="btn-outline">Delete</button>
