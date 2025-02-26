@@ -12,15 +12,23 @@ export class PersonService {
 
   constructor() {}
 
+  insertPerson(person: Person) {
+    return this.http.post<ApiResponse<Person>>(this.API, person);
+  }
+
+  updatePersonById(id: number, personUpdated: Person) {
+    return this.http.patch<ApiResponse<Person>>(`${this.API}/${id}`, personUpdated);
+  }
+
   getAllPersons() {
     return this.http.get<ApiResponse<Person[]>>(this.API);
   }
 
-  getPersonById(id: Number) {
+  getPersonById(id: number) {
     return this.http.get<ApiResponse<Person>>(`${this.API}/${id}`);
   }
 
-  deletePersonById(id: Number) {
+  deletePersonById(id: number) {
     return this.http.delete<ApiResponse<Person>>(`${this.API}/${id}`);
   }
 }

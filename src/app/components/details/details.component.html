@@ -1,6 +1,7 @@
 <form
   class="container row row-cols-1 row-cols-lg-2 gy-3 align-items-start animate-slide-to-right"
-  [formGroup]="form"
+  [formGroup]="personForm"
+  (submit)="onSubmit()"
 >
   <div class="fields-container p-2 d-grid gap-3">
     <div class="input-wrapper">
@@ -9,14 +10,14 @@
     </div>
     <div class="input-wrapper">
       <label class="form-label">Postalcode</label>
-      <input type="text" class="form-control" formControlName="postalcode" />
+      <input type="text" class="form-control" formControlName="postalCode" />
     </div>
     <div class="input-wrapper">
       <label class="form-label">State</label>
       <select
         class="form-select"
-        formControlName=""
-        [attr.disabled]="form.disabled ? true : null"
+        formControlName="state"
+        [attr.disabled]="personForm.disabled ? true : null"
       >
         <option selected disabled value="">Choose...</option>
         <option *ngFor="let state of brStates">{{ state }}</option>
@@ -39,7 +40,10 @@
           <th scope="col">Id</th>
           <th scope="col">Contact</th>
           <th scope="col">Type</th>
-          <th *ngIf="!form.disabled" class="animate-grow-horizontally"></th>
+          <th
+            *ngIf="!personForm.disabled"
+            class="animate-grow-horizontally"
+          ></th>
         </tr>
       </thead>
       <tbody>
@@ -47,35 +51,55 @@
           <td>{{ contact.id }}</td>
           <td>{{ contact.contactValue }}</td>
           <td>{{ contact.contactType }}</td>
-          <td *ngIf="!form.disabled" class="options d-flex gap-2 justify-content-end animate-grow-horizontally">
+          <td
+            *ngIf="!personForm.disabled"
+            class="options d-flex gap-2 justify-content-end animate-grow-horizontally"
+          >
             <a class="btn-outline">Edit</a>
-            <button class="btn-outline">Delete</button>
+            <button class="btn-outline" (click)="deleteContact(contact.id)">
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">
+            <button type="button" class="btn-add animate-pulse" (click)="modal.openModal()">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 
   <div class="options d-flex justify-content-start gap-2">
     <button
-      *ngIf="form.disabled"
+      *ngIf="personForm.disabled"
       type="button"
       class="btn-outline"
       (click)="startEditing()"
     >
       Edit
     </button>
-    <button *ngIf="!form.disabled" type="submit" class="btn-outline">
+    <button *ngIf="!personForm.disabled" type="submit" class="btn-outline">
       Save
     </button>
     <button
-      *ngIf="!form.disabled"
+      *ngIf="!personForm.disabled && idInRoute"
       type="button"
       class="btn-outline"
       (click)="finishEditing()"
     >
       Cancel
     </button>
-    <a *ngIf="form.disabled" class="btn-outline" routerLink="/">Go Back</a>
+    <a
+      *ngIf="personForm.disabled || !idInRoute"
+      class="btn-outline"
+      routerLink="/"
+      >Go Back</a
+    >
   </div>
 </form>
+<app-contact-modal/>

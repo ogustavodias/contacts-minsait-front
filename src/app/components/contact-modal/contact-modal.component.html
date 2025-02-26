@@ -1,0 +1,19 @@
+<div class="modal-container" [class]="{ isOpen: isOpen }">
+  <div class="container" (click)="checkOutsideClick($event)">
+    <form class="fields-container p-2 d-grid gap-3">
+      <button type="button" class="close-btn" (click)="closeModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="input-wrapper">
+        <label class="form-label">Type</label>
+        <select class="form-select">
+          <option selected disabled value="">Choose...</option>
+        </select>
+      </div>
+      <div class="input-wrapper">
+        <label class="form-label">Contact</label>
+        <input type="text" class="form-control" />
+      </div>
+    </form>
+  </div>
+</div>

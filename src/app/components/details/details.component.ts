@@ -1,8 +1,9 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Person, states } from 'src/app/models/person';
 import { PersonService } from 'src/app/services/person.service';
+import { ContactModalComponent } from '../contact-modal/contact-modal.component';
 
 @Component({
   selector: 'app-details',
@@ -10,18 +11,13 @@ import { PersonService } from 'src/app/services/person.service';
   styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent {
+  @ViewChild(ContactModalComponent) modal!: ContactModalComponent;
   route = inject(ActivatedRoute);
+  router = inject(Router);
+  idInRoute = this.route.snapshot.paramMap.get('id') || 0;
   personService = inject(PersonService);
 
   brStates = states;
-
-  form = new FormGroup({
-    name: new FormControl({ value: '', disabled: true }),
-    postalcode: new FormControl({ value: '', disabled: true }),
-    state: new FormControl({ value: '', disabled: true }),
-    city: new FormControl({ value: '', disabled: true }),
-    street: new FormControl({ value: '', disabled: true }),
-  });
 
   person: Person = {
     id: 0,
@@ -33,11 +29,38 @@ export class DetailsComponent {
     contacts: [],
   };
 
+  personForm = new FormGroup({
+    id: new FormControl({ value: this.idInRoute, disabled: true }),
+    name: new FormControl({ value: '', disabled: true }),
+    postalCode: new FormControl({ value: '', disabled: true }),
+    state: new FormControl({ value: '', disabled: true }),
+    city: new FormControl({ value: '', disabled: true }),
+    street: new FormControl({ value: '', disabled: true }),
+    contacts: new FormControl({ value: this.person.contacts, disabled: true }),
+  });
+
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) this.getPersonById(Number(id));
-      else this.startEditing();
+    if (this.idInRoute) this.getPersonById(Number(this.idInRoute));
+    else this.startEditing();
+  }
+
+  onSubmit() {
+    this.person = { ...this.personForm.value } as Person;
+    console.log(this.idInRoute, this.person);
+
+    if (this.idInRoute) this.updatePersonById(this.person.id, this.person);
+    else this.insertPerson(this.person);
+  }
+
+  insertPerson(person: Person) {
+    this.personService.insertPerson(person).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.router.navigateByUrl('/');
+      },
+      error: (error) => {
+        console.log(error);
+      },
     });
   }
 
@@ -55,21 +78,40 @@ export class DetailsComponent {
     });
   }
 
-  fillFieldsWithPersonInfo() {
-    this.form.patchValue({
-      name: this.person.name,
-      postalcode: this.person.postalCode,
-      state: this.person.state,
-      city: this.person.city,
-      street: this.person.street,
+  updatePersonById(id: number, personUpdated: Person) {
+    this.personService.updatePersonById(id, personUpdated).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.router.navigateByUrl('/');
+      },
+      error: (error) => {
+        console.log(error);
+      },
     });
   }
 
+  fillFieldsWithPersonInfo() {
+    this.personForm.patchValue({
+      name: this.person.name,
+      postalCode: this.person.postalCode,
+      state: this.person.state,
+      city: this.person.city,
+      street: this.person.street,
+      contacts: this.person.contacts,
+    });
+  }
+
+  deleteContact(id: number) {
+    this.person.contacts = this.person.contacts.filter((c) => c.id !== id);
+  }
+
   startEditing() {
-    this.form.enable();
+    this.personForm.enable();
   }
 
   finishEditing() {
-    this.form.disable();
+    const originalListContacts = this.personForm.value.contacts;
+    if (originalListContacts) this.person.contacts = originalListContacts;
+    this.personForm.disable();
   }
 }

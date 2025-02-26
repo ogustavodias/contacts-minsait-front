@@ -8,4 +8,8 @@
 .table-container {
   max-height: 70vh;
   overflow: auto;
+
+  tfoot {
+    background-color: black;
+  }
 }

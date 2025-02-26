@@ -3,7 +3,7 @@
   <main class="flex-grow-1 my-4">
     <router-outlet></router-outlet>
   </main>
-  <div class="container p-3">
+  <div *ngIf="currentUrl === '/home'" class="container p-3">
     <a class="btn-add animate-pulse" routerLink="details">
       <i class="fa-solid fa-plus"></i>
     </a>

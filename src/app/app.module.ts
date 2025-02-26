@@ -9,6 +9,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { PersonListComponent } from './components/person-list/person-list.component';
 import { DetailsComponent } from './components/details/details.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ContactModalComponent } from './components/contact-modal/contact-modal.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     PersonListComponent,
     DetailsComponent,
+    ContactModalComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [provideHttpClient()],
