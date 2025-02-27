@@ -10,6 +10,7 @@ import { PersonListComponent } from './components/person-list/person-list.compon
 import { DetailsComponent } from './components/details/details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContactModalComponent } from './components/contact-modal/contact-modal.component';
+import { CepPipe } from './pipes/cep.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ContactModalComponent } from './components/contact-modal/contact-modal.
     PersonListComponent,
     DetailsComponent,
     ContactModalComponent,
+    CepPipe,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [provideHttpClient()],

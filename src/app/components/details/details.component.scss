@@ -1,4 +1,4 @@
-@import '/src/variables.scss'; 
+@import "/src/variables.scss";
 
 .fields-container {
   background-color: #fff;
@@ -11,5 +11,17 @@
 
   tfoot {
     background-color: black;
+  }
+
+  .btn-add {
+    width: max-content;
+    height: auto;
+    padding: 8px 16px;
+    border-radius: 8px;
+
+    transition: opacity 0.3s linear;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }

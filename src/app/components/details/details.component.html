@@ -55,17 +55,17 @@
             *ngIf="!personForm.disabled"
             class="options d-flex gap-2 justify-content-end animate-grow-horizontally"
           >
-            <a class="btn-outline">Edit</a>
-            <button class="btn-outline" (click)="deleteContact(contact.id)">
+            <button type="button" class="btn-outline" (click)="editContact(contact)">Edit</button>
+            <button type="button" class="btn-outline" (click)="deleteContact(contact.id)">
               Delete
             </button>
           </td>
         </tr>
       </tbody>
-      <tfoot>
+      <tfoot *ngIf="!personForm.disabled" class="animate-grow-vertically">
         <tr>
           <td colspan="4">
-            <button type="button" class="btn-add animate-pulse" (click)="modal.openModal()">
+            <button type="button" class="btn-add" (click)="modal.openModal()">
               <i class="fa-solid fa-plus"></i>
             </button>
           </td>
@@ -102,4 +102,4 @@
     >
   </div>
 </form>
-<app-contact-modal/>
+<app-contact-modal [contactList]="person.contacts" (updateList)="updateContactList($event)"/>

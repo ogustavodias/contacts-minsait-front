@@ -1,19 +1,33 @@
 <div class="modal-container" [class]="{ isOpen: isOpen }">
   <div class="container" (click)="checkOutsideClick($event)">
-    <form class="fields-container p-2 d-grid gap-3">
+    <form class="fields-container p-2 d-grid gap-3" [formGroup]="contactForm">
       <button type="button" class="close-btn" (click)="closeModal()">
         <i class="fa-solid fa-xmark"></i>
       </button>
       <div class="input-wrapper">
         <label class="form-label">Type</label>
-        <select class="form-select">
+        <select class="form-select" formControlName="contactType">
           <option selected disabled value="">Choose...</option>
+          <option *ngFor="let option of contactTypeOptions">
+            {{ option }}
+          </option>
         </select>
       </div>
       <div class="input-wrapper">
         <label class="form-label">Contact</label>
-        <input type="text" class="form-control" />
+        <input
+          type="text"
+          class="form-control"
+          formControlName="contactValue"
+        />
       </div>
+      <button
+        class="add-btn"
+        type="button"
+        (click)="inEditing ? saveEdit() : addContact()"
+      >
+        {{ inEditing ? "Save" : "Add" }}
+      </button>
     </form>
   </div>
 </div>

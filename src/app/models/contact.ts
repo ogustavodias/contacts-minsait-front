@@ -1,4 +1,4 @@
-type ContactType = 'PHONE' | 'EMAIL';
+export type ContactType = 'PHONE' | 'EMAIL';
 
 export interface Contact {
   id: number;

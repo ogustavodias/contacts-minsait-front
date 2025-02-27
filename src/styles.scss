@@ -138,3 +138,15 @@ button {
     transform: scalex(1);
   }
 }
+
+.animate-grow-vertically {
+  transform-origin: top;
+  transform: scaleY(0);
+  animation: grow-vertically 0.3s ease-in forwards;
+}
+
+@keyframes grow-vertically {
+  to {
+    transform: scalex(1);
+  }
+}

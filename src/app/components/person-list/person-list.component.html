@@ -15,15 +15,26 @@
     <tbody>
       <tr scope="row" *ngFor="let person of personList">
         <td>{{ person.id }}</td>
-        <td>{{ person.name }}</td>
-        <td>{{ person.postalCode }}</td>
+        <td>
+          {{ person.name | slice : 0 : 25 }}
+          <span *ngIf="person.name.length > 25">...</span>
+        </td>
+        <td>{{ person.postalCode | cep }}</td>
         <td>{{ person.street }}</td>
         <td>{{ person.city }}</td>
         <td>{{ person.state }}</td>
         <td>{{ person.contacts.length }}</td>
         <td class="options d-flex justify-content-end gap-2">
-          <a routerLink="/details/{{person.id}}" class="btn-outline">Details</a>
-          <button type="button" class="btn-outline" (click)="deletePersonById(person.id)">Delete</button>
+          <a routerLink="/details/{{ person.id }}" class="btn-outline">
+            Details
+          </a>
+          <button
+            type="button"
+            class="btn-outline"
+            (click)="deletePersonById(person.id)"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     </tbody>

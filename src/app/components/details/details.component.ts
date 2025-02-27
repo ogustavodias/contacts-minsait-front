@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Person, states } from 'src/app/models/person';
 import { PersonService } from 'src/app/services/person.service';
 import { ContactModalComponent } from '../contact-modal/contact-modal.component';
+import { Contact } from 'src/app/models/contact';
 
 @Component({
   selector: 'app-details',
@@ -16,6 +17,7 @@ export class DetailsComponent {
   router = inject(Router);
   idInRoute = this.route.snapshot.paramMap.get('id') || 0;
   personService = inject(PersonService);
+  contactInEditing: Contact | null = null;
 
   brStates = states;
 
@@ -105,6 +107,11 @@ export class DetailsComponent {
     this.person.contacts = this.person.contacts.filter((c) => c.id !== id);
   }
 
+  editContact(contact: Contact) {
+    this.modal.setInEditing(contact);
+    this.modal.openModal();
+  }
+
   startEditing() {
     this.personForm.enable();
   }
@@ -113,5 +120,9 @@ export class DetailsComponent {
     const originalListContacts = this.personForm.value.contacts;
     if (originalListContacts) this.person.contacts = originalListContacts;
     this.personForm.disable();
+  }
+
+  updateContactList(updatedList: Contact[]) {
+    this.person.contacts = updatedList;
   }
 }
