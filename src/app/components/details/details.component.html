@@ -1,35 +1,50 @@
 <form
   class="container row row-cols-1 row-cols-lg-2 gy-3 align-items-start animate-slide-to-right"
   [formGroup]="personForm"
-  (submit)="onSubmit()"
+  (submit)="onSubmit($event)"
 >
   <div class="fields-container p-2 d-grid gap-3">
     <div class="input-wrapper">
-      <label class="form-label">Name</label>
+      <label class="form-label">Name *</label>
       <input type="text" class="form-control" formControlName="name" />
+      <p *ngIf="showErrorMessage('name')" class="input-error mt-1">
+        {{ getInputErrorMessage("name") }}
+      </p>
     </div>
     <div class="input-wrapper">
-      <label class="form-label">Postalcode</label>
+      <label class="form-label">PostalCode *</label>
       <input type="text" class="form-control" formControlName="postalCode" />
+      <p *ngIf="showErrorMessage('postalCode')" class="input-error mt-1">
+        {{ getInputErrorMessage("postalCode") }}
+      </p>
     </div>
     <div class="input-wrapper">
-      <label class="form-label">State</label>
+      <label class="form-label">State *</label>
       <select
         class="form-select"
         formControlName="state"
         [attr.disabled]="personForm.disabled ? true : null"
       >
         <option selected disabled value="">Choose...</option>
-        <option *ngFor="let state of brStates">{{ state }}</option>
+        <option *ngFor="let state of statesOptions">{{ state }}</option>
       </select>
+      <p *ngIf="showErrorMessage('state')" class="input-error mt-1">
+        {{ getInputErrorMessage("state") }}
+      </p>
     </div>
     <div class="input-wrapper">
-      <label class="form-label">City</label>
+      <label class="form-label">City *</label>
       <input type="text" class="form-control" formControlName="city" />
+      <p *ngIf="showErrorMessage('city')" class="input-error mt-1">
+        {{ getInputErrorMessage("city") }}
+      </p>
     </div>
     <div class="input-wrapper">
-      <label class="form-label">Street</label>
+      <label class="form-label">Street *</label>
       <input type="text" class="form-control" formControlName="street" />
+      <p *ngIf="showErrorMessage('street')" class="input-error mt-1">
+        {{ getInputErrorMessage("street") }}
+      </p>
     </div>
   </div>
 
@@ -55,8 +70,18 @@
             *ngIf="!personForm.disabled"
             class="options d-flex gap-2 justify-content-end animate-grow-horizontally"
           >
-            <button type="button" class="btn-outline" (click)="editContact(contact)">Edit</button>
-            <button type="button" class="btn-outline" (click)="deleteContact(contact.id)">
+            <button
+              type="button"
+              class="btn-outline"
+              (click)="editContact(contact)"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn-outline"
+              (click)="deleteContact(contact.id)"
+            >
               Delete
             </button>
           </td>
@@ -83,7 +108,12 @@
     >
       Edit
     </button>
-    <button *ngIf="!personForm.disabled" type="submit" class="btn-outline">
+    <button
+      *ngIf="!personForm.disabled"
+      type="submit"
+      class="btn-outline"
+      [disabled]="!personForm.valid"
+    >
       Save
     </button>
     <button
@@ -102,4 +132,7 @@
     >
   </div>
 </form>
-<app-contact-modal [contactList]="person.contacts" (updateList)="updateContactList($event)"/>
+<app-contact-modal
+  [contactList]="person.contacts"
+  (updateList)="updateContactList($event)"
+/>

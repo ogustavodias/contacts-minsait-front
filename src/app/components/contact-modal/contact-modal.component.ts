@@ -1,26 +1,61 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Contact, ContactType } from 'src/app/models/contact';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  Contact,
+  ContactRegex,
+  ContactType,
+  contactTypeOptions,
+} from 'src/app/models/contact';
 
 @Component({
   selector: 'app-contact-modal',
   templateUrl: './contact-modal.component.html',
   styleUrls: ['./contact-modal.component.scss'],
 })
-export class ContactModalComponent {
+export class ContactModalComponent implements OnInit {
   @Input() contactList: Contact[] = [];
   @Output() updateList = new EventEmitter<Contact[]>();
+
   inEditing: Contact | null = null;
-
   isOpen = false;
+  contactTypeOptions = contactTypeOptions;
+  contactForm: FormGroup = new FormGroup({});
 
-  contactTypeOptions: ContactType[] = ['EMAIL', 'PHONE'];
+  constructor(private fb: FormBuilder) {}
 
-  contactForm = new FormGroup({
-    id: new FormControl(0),
-    contactType: new FormControl(''),
-    contactValue: new FormControl(''),
-  });
+  ngOnInit(): void {
+    this.initForm();
+    this.onChangeContactType();
+  }
+
+  initForm() {
+    this.contactForm = this.fb.group({
+      id: [0],
+      contactType: ['', [Validators.required]],
+      contactValue: ['', [Validators.required, Validators.pattern('')]],
+    });
+  }
+
+  onChangeContactType() {
+    const contactTypeField = this.contactForm.get('contactType');
+
+    if (!contactTypeField) return;
+
+    contactTypeField.valueChanges.subscribe(
+      (contactType: keyof ContactType) => {
+        const contactValueField = this.contactForm.get('contactValue');
+
+        if (!contactValueField || !contactTypeField.value) return;
+
+        contactValueField.setValidators([
+          Validators.required,
+          Validators.pattern(ContactRegex[contactType].regex),
+        ]);
+
+        contactValueField.updateValueAndValidity();
+      }
+    );
+  }
 
   setInEditing(contact: Contact) {
     this.inEditing = contact;
@@ -39,7 +74,9 @@ export class ContactModalComponent {
 
   saveEdit() {
     const updatedContact = this.contactForm.value as Contact;
-    const updatedList = this.contactList.map(contact => contact.id === updatedContact.id ? updatedContact : contact);
+    const updatedList = this.contactList.map((contact) =>
+      contact.id === updatedContact.id ? updatedContact : contact
+    );
     this.updateList.emit(updatedList);
   }
 
@@ -51,6 +88,32 @@ export class ContactModalComponent {
     } as Contact;
     this.contactList.push(contact);
     this.updateList.emit(this.contactList);
+  }
+
+  showErrorMessage(fieldName: string) {
+    const field = this.contactForm.get(fieldName);
+
+    if (!field) return false;
+    return field.invalid && field.touched;
+  }
+
+  getInputErrorMessage(fieldName: keyof Contact) {
+    const field = this.contactForm.get(fieldName);
+
+    if (!field) return;
+
+    if (field.hasError('required')) {
+      return 'Campo obrigatório';
+    }
+
+    if (field.hasError('pattern')) {
+      switch (fieldName) {
+        case 'contactValue':
+          return 'Contato inválido, insira um contato compatível com o tipo informado';
+      }
+    }
+
+    return 'Campo inválido';
   }
 
   openModal() {

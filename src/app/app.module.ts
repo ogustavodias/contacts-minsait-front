@@ -20,7 +20,7 @@ import { CepPipe } from './pipes/cep.pipe';
     PersonListComponent,
     DetailsComponent,
     ContactModalComponent,
-    CepPipe,
+    CepPipe
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [provideHttpClient()],

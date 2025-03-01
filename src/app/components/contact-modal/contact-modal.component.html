@@ -1,5 +1,5 @@
 <div class="modal-container" [class]="{ isOpen: isOpen }">
-  <div class="container" (click)="checkOutsideClick($event)">
+  <div class="container" (mousedown)="checkOutsideClick($event)">
     <form class="fields-container p-2 d-grid gap-3" [formGroup]="contactForm">
       <button type="button" class="close-btn" (click)="closeModal()">
         <i class="fa-solid fa-xmark"></i>
@@ -12,6 +12,9 @@
             {{ option }}
           </option>
         </select>
+        <p *ngIf="showErrorMessage('contactType')" class="input-error mt-1">
+          {{ getInputErrorMessage("contactType") }}
+        </p>
       </div>
       <div class="input-wrapper">
         <label class="form-label">Contact</label>
@@ -20,11 +23,15 @@
           class="form-control"
           formControlName="contactValue"
         />
+        <p *ngIf="showErrorMessage('contactValue')" class="input-error mt-1">
+          {{ getInputErrorMessage("contactValue") }}
+        </p>
       </div>
       <button
         class="add-btn"
         type="button"
         (click)="inEditing ? saveEdit() : addContact()"
+        [disabled]="!contactForm.valid"
       >
         {{ inEditing ? "Save" : "Add" }}
       </button>
