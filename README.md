@@ -1,5 +1,3 @@
-# Nome do projeto
-
 <img src="/src/assets/imgs/header-full-logo.svg" alt="Logo">
 
 > Este projeto trata-se do frontend de uma aplicação full-stack, cujo objetivo é gerenciar Pessoas e seus respectivos Contatos.
