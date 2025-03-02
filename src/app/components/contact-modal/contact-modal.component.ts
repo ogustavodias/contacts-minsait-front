@@ -78,6 +78,7 @@ export class ContactModalComponent implements OnInit {
       contact.id === updatedContact.id ? updatedContact : contact
     );
     this.updateList.emit(updatedList);
+    this.closeModal();
   }
 
   addContact() {
@@ -88,6 +89,7 @@ export class ContactModalComponent implements OnInit {
     } as Contact;
     this.contactList.push(contact);
     this.updateList.emit(this.contactList);
+    this.closeModal();
   }
 
   showErrorMessage(fieldName: string) {

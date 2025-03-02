@@ -11,6 +11,7 @@ import { DetailsComponent } from './components/details/details.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContactModalComponent } from './components/contact-modal/contact-modal.component';
 import { CepPipe } from './pipes/cep.pipe';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { CepPipe } from './pipes/cep.pipe';
     ContactModalComponent,
     CepPipe
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, SweetAlert2Module],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],
 })

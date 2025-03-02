@@ -5,21 +5,21 @@
 >
   <div class="fields-container p-2 d-grid gap-3">
     <div class="input-wrapper">
-      <label class="form-label">Name *</label>
+      <label class="form-label">Nome *</label>
       <input type="text" class="form-control" formControlName="name" />
       <p *ngIf="showErrorMessage('name')" class="input-error mt-1">
         {{ getInputErrorMessage("name") }}
       </p>
     </div>
     <div class="input-wrapper">
-      <label class="form-label">PostalCode *</label>
+      <label class="form-label">CEP *</label>
       <input type="text" class="form-control" formControlName="postalCode" />
       <p *ngIf="showErrorMessage('postalCode')" class="input-error mt-1">
         {{ getInputErrorMessage("postalCode") }}
       </p>
     </div>
     <div class="input-wrapper">
-      <label class="form-label">State *</label>
+      <label class="form-label">UF *</label>
       <select
         class="form-select"
         formControlName="state"
@@ -33,14 +33,14 @@
       </p>
     </div>
     <div class="input-wrapper">
-      <label class="form-label">City *</label>
+      <label class="form-label">Cidade *</label>
       <input type="text" class="form-control" formControlName="city" />
       <p *ngIf="showErrorMessage('city')" class="input-error mt-1">
         {{ getInputErrorMessage("city") }}
       </p>
     </div>
     <div class="input-wrapper">
-      <label class="form-label">Street *</label>
+      <label class="form-label">Logradouro *</label>
       <input type="text" class="form-control" formControlName="street" />
       <p *ngIf="showErrorMessage('street')" class="input-error mt-1">
         {{ getInputErrorMessage("street") }}
@@ -106,7 +106,7 @@
       class="btn-outline"
       (click)="startEditing()"
     >
-      Edit
+      Editar
     </button>
     <button
       *ngIf="!personForm.disabled"
@@ -114,21 +114,21 @@
       class="btn-outline"
       [disabled]="!personForm.valid"
     >
-      Save
+      Salvar
     </button>
     <button
-      *ngIf="!personForm.disabled && idInRoute"
+      *ngIf="!personForm.disabled && getIdInRoute()"
       type="button"
       class="btn-outline"
       (click)="finishEditing()"
     >
-      Cancel
+      Cancelar
     </button>
     <a
-      *ngIf="personForm.disabled || !idInRoute"
+      *ngIf="personForm.disabled || !getIdInRoute()"
       class="btn-outline"
       routerLink="/"
-      >Go Back</a
+      >Voltar</a
     >
   </div>
 </form>

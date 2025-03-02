@@ -1,10 +1,11 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Person, statesOptions } from 'src/app/models/person';
 import { PersonService } from 'src/app/services/person.service';
 import { ContactModalComponent } from '../contact-modal/contact-modal.component';
 import { Contact } from 'src/app/models/contact';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-details',
@@ -13,16 +14,17 @@ import { Contact } from 'src/app/models/contact';
 })
 export class DetailsComponent implements OnInit {
   @ViewChild(ContactModalComponent) modal!: ContactModalComponent;
-  route = inject(ActivatedRoute);
-  router = inject(Router);
   personForm: FormGroup = new FormGroup({});
-  idInRoute = this.route.snapshot.paramMap.get('id') || 0;
-  personService = inject(PersonService);
   contactInEditing: Contact | null = null;
 
   statesOptions = statesOptions;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private pService: PersonService
+  ) {}
 
   person: Person = {
     id: 0,
@@ -39,9 +41,15 @@ export class DetailsComponent implements OnInit {
     this.checkIfEditOrRegister();
   }
 
+  getIdInRoute() {
+    return this.route.snapshot.paramMap.get('id')
+      ? this.route.snapshot.paramMap.get('id')
+      : 0;
+  }
+
   initForm() {
     this.personForm = this.fb.group({
-      id: [{ value: this.idInRoute, disabled: true }],
+      id: [{ value: this.getIdInRoute(), disabled: true }],
       name: [
         { value: '', disabled: true },
         [
@@ -63,30 +71,33 @@ export class DetailsComponent implements OnInit {
   }
 
   checkIfEditOrRegister() {
-    if (this.idInRoute) this.getPersonById(Number(this.idInRoute));
+    if (this.getIdInRoute()) this.getPersonById(Number(this.getIdInRoute()));
     else this.startEditing();
   }
 
   onSubmit(e: SubmitEvent) {
     e.preventDefault();
 
-    if (this.idInRoute) this.updatePersonById();
-    else this.insertPerson(this.person);
+    if (this.getIdInRoute()) this.updatePersonById();
+    else this.insertPerson();
   }
 
-  insertPerson(person: Person) {
-    this.personService.insertPerson(person).subscribe({
-      next: (response) => {
+  insertPerson() {
+    const person: Person = this.personForm.value;
+
+    this.pService.insertPerson(person).subscribe({
+      next: () => {
+        Swal.fire({ title: 'Pessoa cadastrada com sucesso', icon: 'success' });
         this.router.navigateByUrl('/');
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
+        Swal.fire({ title: 'Falha na tentativa de cadastrar', icon: 'error' });
       },
     });
   }
 
   getPersonById(id: number) {
-    this.personService.getPersonById(id).subscribe({
+    this.pService.getPersonById(id).subscribe({
       next: (response) => {
         this.person = response.body;
       },
@@ -100,21 +111,31 @@ export class DetailsComponent implements OnInit {
   }
 
   updatePersonById() {
-    const updatedPerson: Person = {
-      ...this.personForm.value,
-      contacts: this.person.contacts,
-    };
+    Swal.fire({
+      title: 'Deseja seguir com a edição?',
+      icon: 'warning',
+      showConfirmButton: true,
+      showCancelButton: true,
+    }).then((confirmation) => {
+      if (!confirmation.isConfirmed) return;
 
-    this.personService
-      .updatePersonById(updatedPerson.id, updatedPerson)
-      .subscribe({
-        next: (response) => {
-          this.router.navigateByUrl('/');
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+      const updatedPerson: Person = {
+        ...this.personForm.value,
+        contacts: this.person.contacts,
+      };
+
+      this.pService
+        .updatePersonById(updatedPerson.id, updatedPerson)
+        .subscribe({
+          next: () => {
+            Swal.fire({ title: 'Pessoa editada com sucesso', icon: 'success' });
+            this.router.navigateByUrl('/');
+          },
+          error: () => {
+            Swal.fire({ title: 'Falha na tentativa de edição' });
+          },
+        });
+    });
   }
 
   fillFieldsWithPersonInfo() {

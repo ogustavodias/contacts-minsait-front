@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Person } from '../models/person';
 import { ApiResponse } from '../models/api-response';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PersonService {
   http = inject(HttpClient);
-  API = 'http://localhost:8081/api/persons';
+  API = environment.SERVER + '/api/persons';
 
   constructor() {}
 
@@ -17,7 +18,10 @@ export class PersonService {
   }
 
   updatePersonById(id: number, personUpdated: Person) {
-    return this.http.patch<ApiResponse<Person>>(`${this.API}/${id}`, personUpdated);
+    return this.http.patch<ApiResponse<Person>>(
+      `${this.API}/${id}`,
+      personUpdated
+    );
   }
 
   getAllPersons() {

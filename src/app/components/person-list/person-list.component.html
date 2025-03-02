@@ -2,38 +2,44 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">PostalCode</th>
-        <th scope="col">Street</th>
-        <th scope="col">City</th>
-        <th scope="col">State</th>
-        <th scope="col">Contacts</th>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">CEP</th>
+        <th scope="col">Logradouro</th>
+        <th scope="col">Cidade</th>
+        <th scope="col">UF</th>
+        <th scope="col">Contatos</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr scope="row" *ngFor="let person of personList">
+      <tr scope="row" *ngFor="let person of personListFiltered">
         <td>{{ person.id }}</td>
         <td>
           {{ person.name | slice : 0 : 25 }}
           <span *ngIf="person.name.length > 25">...</span>
         </td>
         <td>{{ person.postalCode | cep }}</td>
-        <td>{{ person.street }}</td>
-        <td>{{ person.city }}</td>
+        <td>
+          {{ person.street | slice : 0 : 25 }}
+          <span *ngIf="person.street.length > 25">...</span>
+        </td>
+        <td>
+          {{ person.city | slice : 0 : 25 }}
+          <span *ngIf="person.city.length > 25">...</span>
+        </td>
         <td>{{ person.state }}</td>
         <td>{{ person.contacts.length }}</td>
         <td class="options d-flex justify-content-end gap-2">
           <a routerLink="/details/{{ person.id }}" class="btn-outline">
-            Details
+            Detalhes
           </a>
           <button
             type="button"
             class="btn-outline"
             (click)="deletePersonById(person.id)"
           >
-            Delete
+            Deletar
           </button>
         </td>
       </tr>
