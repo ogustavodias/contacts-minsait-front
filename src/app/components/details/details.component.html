@@ -52,9 +52,9 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Contact</th>
-          <th scope="col">Type</th>
+          <th scope="col">ID</th>
+          <th scope="col">Contato</th>
+          <th scope="col">Tipo</th>
           <th
             *ngIf="!personForm.disabled"
             class="animate-grow-horizontally"
@@ -62,7 +62,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr scope="row" *ngFor="let contact of person.contacts">
+        <tr scope="row" *ngFor="let contact of contacts">
           <td>{{ contact.id }}</td>
           <td>{{ contact.contactValue }}</td>
           <td>{{ contact.contactType }}</td>
@@ -133,6 +133,6 @@
   </div>
 </form>
 <app-contact-modal
-  [contactList]="person.contacts"
+  [contactList]="contacts"
   (updateList)="updateContactList($event)"
 />

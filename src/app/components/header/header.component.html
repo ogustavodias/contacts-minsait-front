@@ -1,8 +1,18 @@
 <header class="p-3">
-  <nav class="container d-flex justify-content-between align-items-center gap-2">
-    <a routerLink="/"><img src="assets/imgs/header-full-logo.svg" alt="Full logo" /></a>
-    <form class="d-flex gap-2" role="search" id="navbarSearch">
-      <input type="search" placeholder="Search" aria-label="Search" (input)="filter($event)"/>
+  <nav
+    class="container d-flex justify-content-between align-items-center gap-2"
+  >
+    <a routerLink="/"
+      ><img src="assets/imgs/header-full-logo.svg" alt="Full logo"
+    /></a>
+    <form *ngIf="inHome" class="d-flex gap-2" role="search" id="navbarSearch">
+      <input
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        (input)="filter($event)"
+        class="animate-grow-vertically"
+      />
     </form>
   </nav>
 </header>

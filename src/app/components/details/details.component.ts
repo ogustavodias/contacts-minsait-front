@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators as Val } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Person, statesOptions } from 'src/app/models/person';
 import { PersonService } from 'src/app/services/person.service';
@@ -16,6 +16,8 @@ export class DetailsComponent implements OnInit {
   @ViewChild(ContactModalComponent) modal!: ContactModalComponent;
   personForm: FormGroup = new FormGroup({});
   contactInEditing: Contact | null = null;
+  contactsInitial: Contact[] = [];
+  contacts: Contact[] = [...this.contactsInitial];
 
   statesOptions = statesOptions;
 
@@ -25,16 +27,6 @@ export class DetailsComponent implements OnInit {
     private router: Router,
     private pService: PersonService
   ) {}
-
-  person: Person = {
-    id: 0,
-    name: '',
-    postalCode: '',
-    state: '',
-    city: '',
-    street: '',
-    contacts: [],
-  };
 
   ngOnInit() {
     this.initForm();
@@ -48,31 +40,24 @@ export class DetailsComponent implements OnInit {
   }
 
   initForm() {
+    const nameRegex =
+      /^[A-Za-zÁÉÍÓÚÀÈÌÒÙÇáéíóúàèìòùç]+( [A-Za-zÁÉÍÓÚÀÈÌÒÙÇáéíóúàèìòùç]+)+$/;
+    const postalCodeRegex = /^\d{8}$/;
+
     this.personForm = this.fb.group({
-      id: [{ value: this.getIdInRoute(), disabled: true }],
-      name: [
-        { value: '', disabled: true },
-        [
-          Validators.required,
-          Validators.pattern(
-            /^[A-Za-zÁÉÍÓÚÀÈÌÒÙÇáéíóúàèìòùç]+(?: [A-Za-zÁÉÍÓÚÀÈÌÒÙÇáéíóúàèìòùç]+)+$/
-          ),
-        ],
-      ],
-      postalCode: [
-        { value: '', disabled: true },
-        [Validators.required, Validators.pattern(/^\d{8}$/)],
-      ],
-      state: [{ value: '', disabled: true }, [Validators.required]],
-      city: [{ value: '', disabled: true }, [Validators.required]],
-      street: [{ value: '', disabled: true }, [Validators.required]],
-      contacts: [{ value: this.person.contacts, disabled: true }],
+      name: ['', [Val.required, Val.pattern(nameRegex)]],
+      postalCode: ['', [Val.required, Val.pattern(postalCodeRegex)]],
+      state: ['', [Val.required]],
+      city: ['', [Val.required]],
+      street: ['', [Val.required]],
     });
   }
 
   checkIfEditOrRegister() {
-    if (this.getIdInRoute()) this.getPersonById(Number(this.getIdInRoute()));
-    else this.startEditing();
+    if (this.getIdInRoute()) {
+      this.personForm.disable();
+      this.getPersonById(Number(this.getIdInRoute()));
+    } else this.startEditing();
   }
 
   onSubmit(e: SubmitEvent) {
@@ -83,9 +68,13 @@ export class DetailsComponent implements OnInit {
   }
 
   insertPerson() {
-    const person: Person = this.personForm.value;
+    const toInsertPerson: Person = {
+      ...this.personForm.value,
+      id: this.getIdInRoute(),
+      contacts: this.contacts,
+    };
 
-    this.pService.insertPerson(person).subscribe({
+    this.pService.insertPerson(toInsertPerson).subscribe({
       next: () => {
         Swal.fire({ title: 'Pessoa cadastrada com sucesso', icon: 'success' });
         this.router.navigateByUrl('/');
@@ -99,13 +88,14 @@ export class DetailsComponent implements OnInit {
   getPersonById(id: number) {
     this.pService.getPersonById(id).subscribe({
       next: (response) => {
-        this.person = response.body;
+        this.fillFieldsWithPersonInfo(response.body);
       },
-      error: (error) => {
-        console.log(error);
-      },
-      complete: () => {
-        this.fillFieldsWithPersonInfo();
+      error: () => {
+        Swal.fire({
+          title: `Pessoa de ID ${this.getIdInRoute()} não encontrada`,
+          icon: 'error',
+        });
+        this.router.navigateByUrl('/details');
       },
     });
   }
@@ -121,7 +111,8 @@ export class DetailsComponent implements OnInit {
 
       const updatedPerson: Person = {
         ...this.personForm.value,
-        contacts: this.person.contacts,
+        id: this.getIdInRoute(),
+        contacts: this.contacts,
       };
 
       this.pService
@@ -138,20 +129,20 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  fillFieldsWithPersonInfo() {
+  fillFieldsWithPersonInfo(person: Person) {
     this.personForm.patchValue({
-      id: this.person.id,
-      name: this.person.name,
-      postalCode: this.person.postalCode,
-      state: this.person.state,
-      city: this.person.city,
-      street: this.person.street,
-      contacts: this.person.contacts,
+      name: person.name,
+      postalCode: person.postalCode,
+      state: person.state,
+      city: person.city,
+      street: person.street,
     });
+    this.contacts = person.contacts;
+    this.contactsInitial = [...this.contacts];
   }
 
   deleteContact(id: number) {
-    this.person.contacts = this.person.contacts.filter((c) => c.id !== id);
+    this.contacts = this.contacts.filter((c: Contact) => c.id !== id);
   }
 
   editContact(contact: Contact) {
@@ -164,13 +155,12 @@ export class DetailsComponent implements OnInit {
   }
 
   finishEditing() {
-    const originalListContacts = this.personForm.value.contacts;
-    if (originalListContacts) this.person.contacts = originalListContacts;
+    this.contacts = [...this.contactsInitial];
     this.personForm.disable();
   }
 
   updateContactList(updatedList: Contact[]) {
-    this.person.contacts = updatedList;
+    this.contacts = updatedList;
   }
 
   showErrorMessage(fieldName: keyof Person) {
