@@ -5,7 +5,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
       <div class="input-wrapper">
-        <label class="form-label">Type</label>
+        <label class="form-label">Tipo</label>
         <select class="form-select" formControlName="contactType">
           <option selected disabled value="">Choose...</option>
           <option *ngFor="let option of contactTypeOptions">
@@ -17,7 +17,7 @@
         </p>
       </div>
       <div class="input-wrapper">
-        <label class="form-label">Contact</label>
+        <label class="form-label">Contato</label>
         <input
           type="text"
           class="form-control"
@@ -33,7 +33,7 @@
         (click)="inEditing ? saveEdit() : addContact()"
         [disabled]="!contactForm.valid"
       >
-        {{ inEditing ? "Save" : "Add" }}
+        {{ inEditing ? "Salvar" : "Adicionar" }}
       </button>
     </form>
   </div>
