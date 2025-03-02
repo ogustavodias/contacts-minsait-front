@@ -19,6 +19,7 @@ export class DetailsComponent implements OnInit {
   personForm: FormGroup = new FormGroup({});
   contactInEditing: Contact | null = null;
   contactsInitial: Contact[] = [];
+  personInitial: Partial<Person> = {};
   contacts: Contact[] = [...this.contactsInitial];
 
   statesOptions = statesOptions;
@@ -142,6 +143,7 @@ export class DetailsComponent implements OnInit {
     });
     this.contacts = person.contacts;
     this.contactsInitial = [...this.contacts];
+    this.personInitial = { ...person };
   }
 
   consultPostalCode() {
@@ -150,7 +152,7 @@ export class DetailsComponent implements OnInit {
     if (postalCodeField && postalCodeField.valid) {
       this.viacepService.getPostalCodeInfo(postalCodeField.value).subscribe({
         next: (response) => {
-          this.fillFieldsWithViaCepResponse(response);
+          if (!response.erro) this.fillFieldsWithViaCepResponse(response);
         },
       });
     }
@@ -179,6 +181,13 @@ export class DetailsComponent implements OnInit {
 
   finishEditing() {
     this.contacts = [...this.contactsInitial];
+    this.personForm.patchValue({
+      name: this.personInitial.name,
+      postalCode: this.personInitial.postalCode,
+      state: this.personInitial.state,
+      city: this.personInitial.city,
+      street: this.personInitial.street,
+    });
     this.personForm.disable();
   }
 
