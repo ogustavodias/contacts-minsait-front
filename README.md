@@ -21,6 +21,10 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 - **Node 18+** ([Baixar aqui](https://nodejs.org/pt/download))
 - **Git** instalado para clonar o repositório ([Baixar aqui](https://git-scm.com/))
 
+## Produção
+
+A aplicação já encontra-se em produção, portanto, caso prefira fazer o teste sem precisar instalar localmente, acesse ['http://3.145.35.192/home'](http://3.145.35.192/home). Caso contrário, siga com a instalação localmente conforme passos abaixo.
+
 ## 🚀 Instalando
 
 Para instalar e projeto localmente, siga os passos abaixo:
@@ -44,7 +48,7 @@ Para instalar e projeto localmente, siga os passos abaixo:
    npm install
    ```
 
-## ☕ Usando <nome_do_projeto>
+## ☕ Usando
 
 Para executar o projeto localmente, siga estas etapas:
 
