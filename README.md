@@ -25,7 +25,9 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 ## Produção
 
-A aplicação já encontra-se em produção, portanto, caso prefira fazer o teste sem precisar instalar localmente, acesse ['http://3.145.35.192/home'](http://3.145.35.192/home). Caso contrário, siga com a instalação localmente conforme passos abaixo.
+Considerando que a aplicação já encontra-se em produção, é recomendado o seu uso através do seu link IPV4, acesse ['http://3.145.35.192/home'](http://3.145.35.192/home).
+
+Caso ainda sim haja interesse em executar localmente, siga os demais passos abaixo.
 
 ## 🚀 Instalando
 
