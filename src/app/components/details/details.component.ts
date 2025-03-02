@@ -6,6 +6,8 @@ import { PersonService } from 'src/app/services/person.service';
 import { ContactModalComponent } from '../contact-modal/contact-modal.component';
 import { Contact } from 'src/app/models/contact';
 import Swal from 'sweetalert2';
+import { ViacepService } from 'src/app/services/viacep.service';
+import { ViaCepResponse } from 'src/app/models/via-cep-response';
 
 @Component({
   selector: 'app-details',
@@ -25,7 +27,8 @@ export class DetailsComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private pService: PersonService
+    private pService: PersonService,
+    private viacepService: ViacepService
   ) {}
 
   ngOnInit() {
@@ -139,6 +142,26 @@ export class DetailsComponent implements OnInit {
     });
     this.contacts = person.contacts;
     this.contactsInitial = [...this.contacts];
+  }
+
+  consultPostalCode() {
+    const postalCodeField = this.personForm.get('postalCode');
+
+    if (postalCodeField && postalCodeField.valid) {
+      this.viacepService.getPostalCodeInfo(postalCodeField.value).subscribe({
+        next: (response) => {
+          this.fillFieldsWithViaCepResponse(response);
+        },
+      });
+    }
+  }
+
+  fillFieldsWithViaCepResponse(info: ViaCepResponse) {
+    this.personForm.patchValue({
+      state: info.uf,
+      city: info.localidade,
+      street: info.logradouro,
+    });
   }
 
   deleteContact(id: number) {

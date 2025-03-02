@@ -13,7 +13,7 @@
     </div>
     <div class="input-wrapper">
       <label class="form-label">CEP *</label>
-      <input type="text" class="form-control" formControlName="postalCode" />
+      <input type="text" class="form-control" formControlName="postalCode" (blur)="consultPostalCode()" />
       <p *ngIf="showErrorMessage('postalCode')" class="input-error mt-1">
         {{ getInputErrorMessage("postalCode") }}
       </p>

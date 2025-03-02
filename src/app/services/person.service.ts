@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Person } from '../models/person';
 import { ApiResponse } from '../models/api-response';
 import { environment } from 'src/environments/environment';
@@ -8,10 +8,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class PersonService {
-  http = inject(HttpClient);
   API = environment.SERVER + '/api/persons';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   insertPerson(person: Person) {
     return this.http.post<ApiResponse<Person>>(this.API, person);
