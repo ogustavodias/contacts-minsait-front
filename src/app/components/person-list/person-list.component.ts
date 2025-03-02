@@ -66,15 +66,13 @@ export class PersonListComponent implements OnInit {
       this.pService.deletePersonById(id).subscribe({
         next: () => {
           Swal.fire({ title: 'Pessoa removida com sucesso', icon: 'success' });
+          this.getAllPersons();
         },
         error: () => {
           Swal.fire({
             title: 'Falha na tentativa de deletar a pessoa',
             icon: 'error',
           });
-        },
-        complete: () => {
-          this.getAllPersons();
         },
       });
     });

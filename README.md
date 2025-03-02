@@ -1,27 +1,75 @@
-# PersonContactApp
+# Nome do projeto
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+<img src="/src/assets/imgs/header-full-logo.svg" alt="Logo">
 
-## Development server
+> Este projeto trata-se do frontend de uma aplicação full-stack, cujo objetivo é gerenciar Pessoas e seus respectivos Contatos.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Ajustes e melhorias
 
-## Code scaffolding
+O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [x] Protótipo com o design das telas
+- [x] Implementação do protótipo
+- [x] Validação dos campos nos formulários
+- [x] Integração com o backend
+- [ ] Melhorar a componentização
+- [ ] Escrever testes
 
-## Build
+## 💻 Pré-requisitos
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-## Running unit tests
+- **Angular 16+** ([Baixar aqui](https://angular.dev/installation))
+- **Node 18+** ([Baixar aqui](https://nodejs.org/pt/download))
+- **Git** instalado para clonar o repositório ([Baixar aqui](https://git-scm.com/))
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🚀 Instalando
 
-## Running end-to-end tests
+Para instalar e projeto localmente, siga os passos abaixo:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. Clone o repositório:
 
-## Further help
+   ```bash
+   git clone https://github.com/ogustavodias/contacts-minsait.git
+   ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+2. Navegue até o diretório do projeto:
+
+   ```bash
+   cd person-contact-app
+
+   ```
+
+3. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+## ☕ Usando <nome_do_projeto>
+
+Para executar o projeto localmente, siga estas etapas:
+
+1. No diretório do projeto, execute:
+
+   ```bash
+   ng serve
+   ```
+
+2. Também deverá subir o backend da aplicação, seguindo as orientações disponiveis no respectivo repositório ['https://github.com/ogustavodias/contacts-minsait'](https://github.com/ogustavodias/contacts-minsait). P.S: Utilizar a branch **v2**.
+
+## 📫 Contribuindo
+
+Para contribuir com o projeto, siga estas etapas:
+
+1. Bifurque este repositório.
+2. Crie um branch: `git checkout -b <nome_branch>`.
+3. Faça suas alterações e confirme-as: `git commit -m '<mensagem_commit>'`
+4. Envie para o branch original: `git push origin <nome_do_projeto> / <local>`
+5. Crie a solicitação de pull.
+
+Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+
+## 📝 Licença
+
+Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
