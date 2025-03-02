@@ -60,7 +60,7 @@ Para executar o projeto localmente, siga estas etapas:
    ng serve
    ```
 
-2. Também deverá subir o backend da aplicação, seguindo as orientações disponiveis no respectivo repositório ['https://github.com/ogustavodias/contacts-minsait'](https://github.com/ogustavodias/contacts-minsait). P.S: Utilizar a branch **v2**.
+2. Também deverá subir o backend da aplicação, seguindo as orientações disponiveis no respectivo repositório ['https://github.com/ogustavodias/contacts-minsait/tree/v2'](https://github.com/ogustavodias/contacts-minsait/tree/v2). P.S: Utilizar a branch **v2**.
 
 ## 📫 Contribuindo
 
