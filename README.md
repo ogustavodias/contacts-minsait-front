@@ -10,6 +10,8 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 - [x] Implementação do protótipo
 - [x] Validação dos campos nos formulários
 - [x] Integração com o backend
+- [x] Deploy no EC2 da Amazon
+- [ ] Dominío para a aplicação em produção
 - [ ] Melhorar a componentização
 - [ ] Escrever testes
 
