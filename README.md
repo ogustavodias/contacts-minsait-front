@@ -25,7 +25,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 ## Produção
 
-Considerando que a aplicação já encontra-se em produção, é recomendado o seu uso através do link IPV4, acesse ['http://54.233.74.199/home'](http://54.233.74.199/home).
+Considerando que a aplicação já encontra-se em produção, é recomendado o seu uso através do link IPV4, acesse ['http://18.228.155.17/home'](http://18.228.155.17/home).
 
 Caso ainda sim haja interesse em executar localmente, siga os demais passos abaixo.
 
